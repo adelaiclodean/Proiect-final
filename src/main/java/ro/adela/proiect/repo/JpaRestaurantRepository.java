@@ -12,4 +12,7 @@ public interface JpaRestaurantRepository extends JpaRepository<Restaurant, UUID>
 
     List<Restaurant> findByNameContainingIgnoreCase (String name);
 
+    List<Restaurant> findByName (String name);
+
+    List<Restaurant> findByRestaurantTypes_Name(String name);
 }

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <style>
+        body{
+        background-color:#e5f1ff;
+        }
+
+        .container{
+        width:100%;
+        margin:40px auto;
+        display:flex;
+        justify-content:left;
+        padding:0;
+        }
+
+        .restaurant-info-container{
+        width:70%;
+        display:flex;
+        justify-content:center;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        }
+
+        .reservation-container{
+        width:30%;
+        text-align:center;
+        display:flex;
+        flex-direction: column;
+        }
+
+        .restaurant-img{
+        max-width:90%;
+        max-height:90%
+        }
+
+        .restaurant-description{
+        width:90%;
+        margin:5px;
+        text-align:left;
+        border-radius:5px;
+        min-height:100px;
+        padding:10px 5px;
+        box-shadow: 0 0 5px 1px #b7afaf;
+        background-color:white;
+        }
+
+        .working-hours-container{
+        width:50%
+        }
+
+        .navbar-right-container{
+        display:flex;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-light bg-light justify-content-between">
+    <a class="navbar-brand" href="/">Home</a>
+
+    <div class="navbar-right-container">
+        <a class="btn btn-info mr-sm-2" href="/bookings/myBookings">My Bookings</a>
+        <form class="form-inline" method="post" action="/">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="filterName">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<div class="container">
+    <div class="restaurant-info-container">
+        <h2 th:text = "${restaurant.name}"></h2>
+        <h6 th:text = "'Address: '+${restaurant.location}"></h6>
+        <h6 th:text = "'Phone number: '+${restaurant.phoneNumber}"></h6>
+        <img class="restaurant-img" th:src="@{/images/{name}(name=${restaurant.imageName})}">
+        <p class="restaurant-description" th:text = "${restaurant.description}"> </p>
+        <div class="working-hours-container">
+            <table class="table table-dark">
+                <tr>
+                    <th>Day</th>
+                    <th>Open Hours</th>
+                </tr >
+                <tr th:each="workingHour, iter:${workingHours}">
+                    <td th:text="${workingHour.dayOfWeek.dayName}"></td>
+                    <td>
+                        <span th:if="${workingHour.startHour == workingHour.endHour}" >Closed</span>
+                        <span th:th:unless="${workingHour.startHour == workingHour.endHour}" th:text="${workingHour.startHour} + '-' + ${workingHour.endHour}"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="mapouter">
+            <div class="gmap_canvas">
+                <iframe width="900" height="700" id="gmap_canvas" th:src="@{${restaurant.getMapLocationSrc}}" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+            </div>
+        </div>
+    </div>
+    <div class="reservation-container">
+        <form method="post" action="/restaurants/book">
+            <label> Select a date:</label>
+            <input class="form-control" type="datetime-local" step="any" name="selectedDate" th:attr="min=${currentDate}">
+            <br>
+            <label> Select number of people</label>
+            <input class="form-control"  type="number" name="numberOfPeople" min="1" max="20">
+            <br>
+            <input class="form-control"  type="hidden" name="restaurantId" th:value="${restaurant.id}">
+            <button class="btn btn-success" type="submit">Reserve table</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
