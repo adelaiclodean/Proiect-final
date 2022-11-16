@@ -38,15 +38,6 @@ public class RestaurantController {
         return "restaurant";
     }
 
-    @PostMapping("/{name}/{id}/book")
-    public String restaurantBookingPage (Model model, @PathVariable("name") String name, @PathVariable("id") UUID id, @RequestParam("selectedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime selectedDate, @RequestParam ("numberOfPeople") int numberOfPeople){
-        model.addAttribute("restaurantName", name);
-        model.addAttribute("restaurantId", id);
-        model.addAttribute("selectedDate", selectedDate);
-        model.addAttribute("numberOfPeople", numberOfPeople);
-        return "booking";
-    }
-
     @PostMapping("/book")
     public RedirectView  restaurantBook (@RequestParam("selectedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime selectedDate, @RequestParam ("numberOfPeople") int numberOfPeople, @RequestParam ("restaurantId") UUID restaurantId){
         Authentication authentication = authenticationFacade.getAuthentication();

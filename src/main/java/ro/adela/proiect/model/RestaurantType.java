@@ -17,8 +17,6 @@ public class RestaurantType {
     @Column
     private String name;
 
-
-
     public UUID getId() {
         return id;
     }

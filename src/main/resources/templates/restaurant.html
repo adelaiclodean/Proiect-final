@@ -93,7 +93,7 @@
                     <td th:text="${workingHour.dayOfWeek.dayName}"></td>
                     <td>
                         <span th:if="${workingHour.startHour == workingHour.endHour}" >Closed</span>
-                        <span th:th:unless="${workingHour.startHour == workingHour.endHour}" th:text="${workingHour.startHour} + '-' + ${workingHour.endHour}"></span>
+                        <span th:if="${workingHour.startHour != workingHour.endHour}" th:text="${workingHour.startHour} + '-' + ${workingHour.endHour}"></span>
                     </td>
                 </tr>
             </table>

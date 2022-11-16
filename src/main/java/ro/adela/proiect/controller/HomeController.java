@@ -56,5 +56,4 @@ public class HomeController {
         model.addAttribute("selectedRestaurantType", name);
         return "home";
     }
-
 }

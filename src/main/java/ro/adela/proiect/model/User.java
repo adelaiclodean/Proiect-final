@@ -14,8 +14,6 @@ public class User {
     @Column(name = "user_id")
     private UUID id;
 
-
-
     @Column(nullable = false, unique = true, length = 32)
     private String username;
 

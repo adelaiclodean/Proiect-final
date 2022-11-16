@@ -45,7 +45,7 @@ public class Booking {
         return BookingTime;
     }
 
-    public ro.adela.proiect.model.Restaurant getRestaurant() {
+    public Restaurant getRestaurant() {
         return Restaurant;
     }
 

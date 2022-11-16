@@ -11,7 +11,6 @@ public class DayOfWeek {
     @Id
     @Column
     int dayId;
-
     @Column
     String dayName;
 
