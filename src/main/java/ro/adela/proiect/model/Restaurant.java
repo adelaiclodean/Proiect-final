@@ -24,6 +24,19 @@ public class Restaurant {
     @Column(columnDefinition = "TEXT")
     private String mapLocationSrc;
 
+    @Transient
+    private double rating;
+
+    @Transient
+    public double getRating() {
+        return rating;
+    }
+    @Transient
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "restaurant_restaurant_type",
@@ -34,6 +47,10 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<WorkingHours> workingHours;
+
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
 
     public Restaurant() {
     }
@@ -72,6 +89,10 @@ public class Restaurant {
 
     public List<RestaurantType> getRestaurantTypes() {
         return restaurantTypes;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
     }
 
     public List<WorkingHours> getWorkingHours() {

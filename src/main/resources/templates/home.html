@@ -156,7 +156,7 @@
     <a class="restaurant-link" th:each="restaurant, iter:${restaurants}" th:href="@{/restaurants/{name}(name=${restaurant.name})}">
         <div class="restaurant-presentation">
             <img class="restaurant-img" th:src="@{/images/{name}(name=${restaurant.imageName})}">
-            <p class="restaurant-name" th:text="${restaurant.name}"></p>
+            <p class="restaurant-name" th:text="${restaurant.name} + ' (' + ${restaurant.rating} + '/10)'"></p>
             <p class="restaurant-location" th:text="${restaurant.location}"></p>
         </div>
     </a>

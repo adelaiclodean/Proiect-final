@@ -61,6 +61,27 @@
         .navbar-right-container{
         display:flex;
         }
+        .review{
+        background-color:#bdd6f2;
+        margin:20px 0;
+        }
+
+        .review-description{
+        background-color:#b6c8de;
+        text-align:left;
+        padding:0 15px;
+        min-height:50px;
+        }
+        .review-create{
+        margin:110px 0;
+        }
+        .invisible{
+        display:none;
+        }
+
+        .reviews-container{
+        margin:50px 0;
+        }
 
     </style>
 </head>
@@ -78,11 +99,13 @@
 </nav>
 <div class="container">
     <div class="restaurant-info-container">
-        <h2 th:text = "${restaurant.name}"></h2>
+        <h2 th:text = "${restaurant.name} + ' (' + ${restaurant.rating} + '/10)'"></h2>
         <h6 th:text = "'Address: '+${restaurant.location}"></h6>
         <h6 th:text = "'Phone number: '+${restaurant.phoneNumber}"></h6>
         <img class="restaurant-img" th:src="@{/images/{name}(name=${restaurant.imageName})}">
         <p class="restaurant-description" th:text = "${restaurant.description}"> </p>
+        <br>
+        <b>Working hours:</b>
         <div class="working-hours-container">
             <table class="table table-dark">
                 <tr>
@@ -98,6 +121,9 @@
                 </tr>
             </table>
         </div>
+        <br>
+        <b>Location on map:</b>
+        <br>
         <div class="mapouter">
             <div class="gmap_canvas">
                 <iframe width="900" height="700" id="gmap_canvas" th:src="@{${restaurant.getMapLocationSrc}}" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
@@ -106,7 +132,7 @@
     </div>
     <div class="reservation-container">
         <form method="post" action="/restaurants/book">
-            <label> Select a date:</label>
+            <label> <b> Select a date:</b></label>
             <input class="form-control" type="datetime-local" step="any" name="selectedDate" th:attr="min=${currentDate}">
             <br>
             <label> Select number of people</label>
@@ -115,6 +141,29 @@
             <input class="form-control"  type="hidden" name="restaurantId" th:value="${restaurant.id}">
             <button class="btn btn-success" type="submit">Reserve table</button>
         </form>
+
+        <div class="reviews-container">
+            <div class="review-create" th:classappend = "${hasReview == true ? 'invisible' : ''}">
+
+            <form method="post" action="/restaurants/submitReview">
+                <label>Write a review:</label>
+                <textarea class="form-control" type="text" name="reviewDescription"></textarea>
+                <br>
+                <label>Rating [1-10]:</label>
+                <input class="form-control"  type="number" name="rating" min="1" max="10">
+                <br>
+                <input class="form-control"  type="hidden" name="restaurantId" th:value="${restaurant.id}">
+                <input class="form-control"  type="hidden" name="restaurantName" th:value="${restaurant.name}">
+                <button class="btn btn-success" type="submit">Submit review</button>
+            </form>
+            </div>
+            <div class="review" th:each="review, iter:${restaurant.getReviews()}">
+                <b class="review-user" th:text="${review.user.username} + ' (' + ${review.rating} + '/10)'"></b>
+                <p class="review-description" th:text="${review.review}"></p>
+
+            </div>
+
+        </div>
     </div>
 </div>
 </body>

@@ -1,9 +1,7 @@
 package ro.adela.proiect.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -19,6 +17,10 @@ public class User {
 
     @Column(nullable = false, length = 64)
     private String password;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
 
     public User() {
     }
